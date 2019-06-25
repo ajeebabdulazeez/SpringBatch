@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: fastfile-batch
+    version: v1
+
+gcp:
+  bucket:
+    path: gs://schedulingcommon/oab/fastfile
+    archivePath: gs://schedulingcommon/oab/fastfile/archive
+    fileName: fastfile.csv

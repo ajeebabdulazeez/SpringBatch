@@ -1,4 +1,4 @@
-package ca.homedepot.oab.fastfile.reader;
+package ca.homedepot.oab.FastFileUpload.reader;
 
 
 import org.springframework.batch.item.file.FlatFileItemReader;
@@ -8,12 +8,9 @@ import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.stereotype.Component;
 
-import ca.homedepot.oab.fastfile.model.Slot;
+import ca.homedepot.oab.FastFileUpload.model.Slot;
 
-
-@Component
 public class SlotReader extends FlatFileItemReader<Slot> {
 	
 //	@Value("${gcp.bucket.path}/${gcp.bucket.fileName}")
@@ -23,7 +20,7 @@ public class SlotReader extends FlatFileItemReader<Slot> {
 		super();
 
 		this.setName("fastFileItemReader");
-		this.setResource(new ClassPathResource("FASTFILE1.csv"));
+		this.setResource(new ClassPathResource("File11.csv"));
 		this.setLinesToSkip(1);
 
 		this.setLineMapper(new DefaultLineMapper<Slot>() {

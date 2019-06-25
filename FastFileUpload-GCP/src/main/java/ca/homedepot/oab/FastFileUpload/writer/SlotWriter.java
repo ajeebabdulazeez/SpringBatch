@@ -1,13 +1,11 @@
-package ca.homedepot.oab.fastfile.writer;
+package ca.homedepot.oab.FastFileUpload.writer;
 
 import java.util.List;
 
 import org.springframework.batch.item.ItemWriter;
-import org.springframework.stereotype.Component;
 
-import ca.homedepot.oab.fastfile.model.SlotDTO;
+import ca.homedepot.oab.FastFileUpload.model.SlotDTO;
 
-@Component
 public class SlotWriter implements ItemWriter<SlotDTO> {
 
 	@Override

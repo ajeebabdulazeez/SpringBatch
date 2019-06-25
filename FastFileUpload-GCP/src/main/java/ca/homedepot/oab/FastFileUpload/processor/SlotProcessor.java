@@ -1,22 +1,19 @@
-package ca.homedepot.oab.fastfile.processor;
+package ca.homedepot.oab.FastFileUpload.processor;
 
 import java.text.ParseException;
 
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
-import ca.homedepot.oab.fastfile.model.Slot;
-import ca.homedepot.oab.fastfile.model.SlotDTO;
-import ca.homedepot.oab.fastfile.util.ScheduleStringBuilder;
-import ca.homedepot.oab.fastfile.util.SlotMap;
+import ca.homedepot.oab.FastFileUpload.model.Slot;
+import ca.homedepot.oab.FastFileUpload.model.SlotDTO;
+import ca.homedepot.oab.FastFileUpload.util.ScheduleStringBuilder;
+import ca.homedepot.oab.FastFileUpload.util.SlotMap;
 
 /**
  * @author AXA8NZJ
  *
  */
-
-@Component
 public class SlotProcessor implements ItemProcessor<Slot, SlotDTO> {
 
 	@Autowired
@@ -26,6 +23,7 @@ public class SlotProcessor implements ItemProcessor<Slot, SlotDTO> {
 	public SlotDTO process(final Slot slot) throws ParseException {
 
 		String uniqueRecordIdentifier = slot.getActivityFlag() + slot.getLdap() + slot.getShiftDate();
+		System.out.println(uniqueRecordIdentifier);
 		String scheduleString = scheduleStringBuilder.buildSchedule(slot.getStartInterval(), slot.getEndInterval(),
 				slot.getCoverageCheck(), uniqueRecordIdentifier, slot);
 		if (scheduleString != null) {
