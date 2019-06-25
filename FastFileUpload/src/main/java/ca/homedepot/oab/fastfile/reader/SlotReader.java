@@ -1,4 +1,4 @@
-package ca.homedepot.oab.FastFileUpload.reader;
+package ca.homedepot.oab.fastfile.reader;
 
 
 import org.springframework.batch.item.file.FlatFileItemReader;
@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
-import ca.homedepot.oab.FastFileUpload.model.Slot;
+import ca.homedepot.oab.fastfile.model.Slot;
 
 public class SlotReader extends FlatFileItemReader<Slot> {
 	

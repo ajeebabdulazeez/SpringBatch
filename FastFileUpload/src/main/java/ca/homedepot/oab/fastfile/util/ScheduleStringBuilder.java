@@ -1,4 +1,4 @@
-package ca.homedepot.oab.FastFileUpload.util;
+package ca.homedepot.oab.fastfile.util;
 
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -10,8 +10,8 @@ import java.util.concurrent.TimeUnit;
 
 import org.springframework.stereotype.Component;
 
-import ca.homedepot.oab.FastFileUpload.model.Slot;
-import ca.homedepot.oab.FastFileUpload.model.SlotDTO;
+import ca.homedepot.oab.fastfile.model.Slot;
+import ca.homedepot.oab.fastfile.model.SlotDTO;
 
 @Component
 public class ScheduleStringBuilder {

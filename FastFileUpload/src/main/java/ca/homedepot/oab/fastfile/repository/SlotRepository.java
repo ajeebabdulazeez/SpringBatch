@@ -1,4 +1,4 @@
-package ca.homedepot.oab.FastFileUpload.repository;
+package ca.homedepot.oab.fastfile.repository;
 
 
 import java.util.Date;
@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import ca.homedepot.oab.FastFileUpload.model.SlotDTO;
+import ca.homedepot.oab.fastfile.model.SlotDTO;
 
 @Repository
 public interface SlotRepository extends JpaRepository<SlotDTO, Integer> {

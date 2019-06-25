@@ -1,4 +1,4 @@
-package ca.homedepot.oab.FastFileUpload.model;
+package ca.homedepot.oab.fastfile.model;
 
 import java.io.Serializable;
 import java.sql.Date;

@@ -1,4 +1,4 @@
-package ca.homedepot.oab.FastFileUpload.listener;
+package ca.homedepot.oab.fastfile.listener;
 
 import java.util.Calendar;
 import java.util.Map;
@@ -8,8 +8,8 @@ import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.stereotype.Component;
 
-import ca.homedepot.oab.FastFileUpload.model.SlotDTO;
-import ca.homedepot.oab.FastFileUpload.util.SlotMap;
+import ca.homedepot.oab.fastfile.model.SlotDTO;
+import ca.homedepot.oab.fastfile.util.SlotMap;
 
 @Component
 public class SlotListener implements StepExecutionListener {

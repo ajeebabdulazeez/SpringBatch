@@ -1,14 +1,14 @@
-package ca.homedepot.oab.FastFileUpload.processor;
+package ca.homedepot.oab.fastfile.processor;
 
 import java.text.ParseException;
 
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import ca.homedepot.oab.FastFileUpload.model.Slot;
-import ca.homedepot.oab.FastFileUpload.model.SlotDTO;
-import ca.homedepot.oab.FastFileUpload.util.ScheduleStringBuilder;
-import ca.homedepot.oab.FastFileUpload.util.SlotMap;
+import ca.homedepot.oab.fastfile.model.Slot;
+import ca.homedepot.oab.fastfile.model.SlotDTO;
+import ca.homedepot.oab.fastfile.util.ScheduleStringBuilder;
+import ca.homedepot.oab.fastfile.util.SlotMap;
 
 /**
  * @author AXA8NZJ

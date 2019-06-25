@@ -1,4 +1,4 @@
-package ca.homedepot.oab.FastFileUpload.tasklet;
+package ca.homedepot.oab.fastfile.tasklet;
 
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -15,9 +15,9 @@ import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import ca.homedepot.oab.FastFileUpload.model.SlotDTO;
-import ca.homedepot.oab.FastFileUpload.repository.SlotRepository;
-import ca.homedepot.oab.FastFileUpload.util.SlotMap;
+import ca.homedepot.oab.fastfile.model.SlotDTO;
+import ca.homedepot.oab.fastfile.repository.SlotRepository;
+import ca.homedepot.oab.fastfile.util.SlotMap;
 
 public class SlotTasklet implements Tasklet {
 	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd");

@@ -1,9 +1,9 @@
-package ca.homedepot.oab.FastFileUpload.util;
+package ca.homedepot.oab.fastfile.util;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import ca.homedepot.oab.FastFileUpload.model.SlotDTO;
+import ca.homedepot.oab.fastfile.model.SlotDTO;
 
 public class SlotMap {
 

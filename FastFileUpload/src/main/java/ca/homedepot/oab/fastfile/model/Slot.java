@@ -1,4 +1,4 @@
-package ca.homedepot.oab.FastFileUpload.model;
+package ca.homedepot.oab.fastfile.model;
 
 public class Slot {
 

@@ -1,7 +1,10 @@
-package ca.homedepot.oab.FastFileUpload.config;
+package ca.homedepot.oab.fastfile.config;
+
+import javax.sql.DataSource;
 
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
+import org.springframework.batch.core.configuration.annotation.DefaultBatchConfigurer;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
@@ -12,17 +15,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import ca.homedepot.oab.FastFileUpload.listener.SlotListener;
-import ca.homedepot.oab.FastFileUpload.model.Slot;
-import ca.homedepot.oab.FastFileUpload.model.SlotDTO;
-import ca.homedepot.oab.FastFileUpload.processor.SlotProcessor;
-import ca.homedepot.oab.FastFileUpload.reader.SlotReader;
-import ca.homedepot.oab.FastFileUpload.tasklet.SlotTasklet;
-import ca.homedepot.oab.FastFileUpload.writer.SlotWriter;
+import ca.homedepot.oab.fastfile.listener.SlotListener;
+import ca.homedepot.oab.fastfile.model.Slot;
+import ca.homedepot.oab.fastfile.model.SlotDTO;
+import ca.homedepot.oab.fastfile.processor.SlotProcessor;
+import ca.homedepot.oab.fastfile.reader.SlotReader;
+import ca.homedepot.oab.fastfile.tasklet.SlotTasklet;
+import ca.homedepot.oab.fastfile.writer.SlotWriter;
 
 @Configuration
 @EnableBatchProcessing
-public class BatchConfiguration {
+public class BatchConfiguration extends DefaultBatchConfigurer {
+
+	@Override
+	public void setDataSource(DataSource dataSource) {
+	}
+
 	@Autowired
 	public JobBuilderFactory jobBuilderFactory;
 
@@ -56,7 +64,7 @@ public class BatchConfiguration {
 
 	@Bean
 	public Job importUserJob() throws Exception {
-		return jobBuilderFactory.get("importUserJob").incrementer(new RunIdIncrementer()).start(step1())
+		return jobBuilderFactory.get("importUserJob").incrementer(new RunIdIncrementer()).start(step1()).next(step2())
 				.build();
 	}
 
