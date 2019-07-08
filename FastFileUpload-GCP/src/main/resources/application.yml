@@ -2,9 +2,15 @@ spring:
   application:
     name: fastfile-batch
     version: v1
+  cloud:
+    gcp:
+      storage:
+        credentials:
+          location: /home/ajeeba01/serviceaccount.json
 
 gcp:
   bucket:
     path: gs://schedulingcommon/oab/fastfile
     archivePath: gs://schedulingcommon/oab/fastfile/archive
     fileName: fastfile.csv
+ 
