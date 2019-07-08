@@ -13,7 +13,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "associate_slot_bkp")
-public class SlotDTO implements Serializable {
+public class AssociateSlotDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 

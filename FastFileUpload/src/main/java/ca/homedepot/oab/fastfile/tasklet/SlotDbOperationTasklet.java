@@ -16,26 +16,26 @@ import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import ca.homedepot.oab.fastfile.model.SlotDTO;
-import ca.homedepot.oab.fastfile.repository.SlotRepository;
-import ca.homedepot.oab.fastfile.util.SlotMap;
+import ca.homedepot.oab.fastfile.model.AssociateSlotDTO;
+import ca.homedepot.oab.fastfile.repository.AssociateSlotRepository;
+import ca.homedepot.oab.fastfile.util.AssociateSlotDTOMap;
 
 @Component
 public class SlotDbOperationTasklet implements Tasklet {
 	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd");
 
 	@Autowired
-	SlotRepository slotRepository;
+	AssociateSlotRepository slotRepository;
 
 	@Override
 	@Transactional
 	public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
 
-		Map<String, SlotDTO> scheduleMap = SlotMap.getSlotSchedules();
+		Map<String, AssociateSlotDTO> scheduleMap = AssociateSlotDTOMap.getSlotSchedules();
 
 		scheduleMap.forEach((K, V) -> {
 			String scheduleFromMap = V.getSlotAvailability();
-			SlotDTO slotFromDb = getScheduleFromDB(V.getTypeId(), V.getSlotLdap(), V.getSlotDate());
+			AssociateSlotDTO slotFromDb = getScheduleFromDB(V.getTypeId(), V.getSlotLdap(), V.getSlotDate());
 
 			if (slotFromDb == null) {
 				createSlot(V);
@@ -99,7 +99,7 @@ public class SlotDbOperationTasklet implements Tasklet {
 	 * 
 	 *                Method to insert the record in Slot table.
 	 */
-	private void createSlot(SlotDTO slotDTO) {
+	private void createSlot(AssociateSlotDTO slotDTO) {
 		slotRepository.save(slotDTO);
 	}
 
@@ -109,7 +109,7 @@ public class SlotDbOperationTasklet implements Tasklet {
 	 * 
 	 *                        Method to update the record in Slot table.
 	 */
-	private void updateSlot(SlotDTO slotFromDb, String scheduleFromMap) {
+	private void updateSlot(AssociateSlotDTO slotFromDb, String scheduleFromMap) {
 		slotFromDb.setSlotAvailability(
 				modifyScheduleInMapWithAppointment(slotFromDb.getSlotAvailability(), scheduleFromMap));
 		slotFromDb.setSlotUpdatedts(new Timestamp(System.currentTimeMillis()));
@@ -123,8 +123,8 @@ public class SlotDbOperationTasklet implements Tasklet {
 	 *         Method to fetch the Schedule from DB of an associate for a particular
 	 *         date and appointment type.
 	 */
-	private SlotDTO getScheduleFromDB(String typeId, String ldap, Date shiftDate) {
-		return (SlotDTO) slotRepository.fetchSlot(typeId, ldap, shiftDate);
+	private AssociateSlotDTO getScheduleFromDB(String typeId, String ldap, Date shiftDate) {
+		return (AssociateSlotDTO) slotRepository.fetchSlot(typeId, ldap, shiftDate);
 	}
 
 }

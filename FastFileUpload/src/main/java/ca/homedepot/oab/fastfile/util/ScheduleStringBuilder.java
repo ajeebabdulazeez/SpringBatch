@@ -10,8 +10,8 @@ import java.util.concurrent.TimeUnit;
 
 import org.springframework.stereotype.Component;
 
-import ca.homedepot.oab.fastfile.model.Slot;
-import ca.homedepot.oab.fastfile.model.SlotDTO;
+import ca.homedepot.oab.fastfile.model.Schedule;
+import ca.homedepot.oab.fastfile.model.AssociateSlotDTO;
 
 @Component
 public class ScheduleStringBuilder {
@@ -34,7 +34,7 @@ public class ScheduleStringBuilder {
 	 *
 	 */
 	public String buildSchedule(String shiftStart, String shiftEnd, String coverageCheck, String uniqueRecordIdentifier,
-			Slot slot) throws ParseException {
+			Schedule slot) throws ParseException {
 
 		Calendar shiftStartTime = Calendar.getInstance();
 		Calendar shiftEndTime = Calendar.getInstance();
@@ -66,11 +66,11 @@ public class ScheduleStringBuilder {
 	 *                        Method to build the Slot DTO objects. This object is
 	 *                        added to Schedule Map.
 	 */
-	public SlotDTO buildSlotDTOForMap(String uniqueRecordIdentifier, Slot slot, String scheduleString)
+	public AssociateSlotDTO buildSlotDTOForMap(String uniqueRecordIdentifier, Schedule slot, String scheduleString)
 			throws ParseException {
-		SlotDTO slotDTO;
-		if (SlotMap.getSlotSchedules().get(uniqueRecordIdentifier) == null) {
-			slotDTO = new SlotDTO();
+		AssociateSlotDTO slotDTO;
+		if (AssociateSlotDTOMap.getSlotSchedules().get(uniqueRecordIdentifier) == null) {
+			slotDTO = new AssociateSlotDTO();
 			Date parsedDate = dateFormatter("yyyy-MM-dd", slot.getShiftDate());
 			slotDTO.setSlotDate(new java.sql.Date(parsedDate.getTime()));
 			slotDTO.setSlotStoreNo(Integer.parseInt(slot.getStoreNumber()));
@@ -82,7 +82,7 @@ public class ScheduleStringBuilder {
 		}
 
 		else {
-			slotDTO = SlotMap.getSlotSchedules().get(uniqueRecordIdentifier);
+			slotDTO = AssociateSlotDTOMap.getSlotSchedules().get(uniqueRecordIdentifier);
 			slotDTO.setSlotAvailability(scheduleString);
 		}
 
@@ -133,8 +133,8 @@ public class ScheduleStringBuilder {
 	 *         associate slot. If not found, default schedule string is returned.
 	 */
 	private String getScheduleFromMap(String uniqueRecordIdentifier) {
-		return (SlotMap.getSlotSchedules().containsKey(uniqueRecordIdentifier))
-				? SlotMap.getSlotSchedules().get(uniqueRecordIdentifier).getSlotAvailability()
+		return (AssociateSlotDTOMap.getSlotSchedules().containsKey(uniqueRecordIdentifier))
+				? AssociateSlotDTOMap.getSlotSchedules().get(uniqueRecordIdentifier).getSlotAvailability()
 				: DEFAULT_SLOT;
 	}
 

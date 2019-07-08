@@ -1,6 +1,6 @@
 package ca.homedepot.oab.fastfile.model;
 
-public class Slot {
+public class Schedule {
 
 	private String shiftDate;
 	private String storeNumber;
@@ -20,7 +20,7 @@ public class Slot {
 	private String taskDetail;
 	private String activityFlag;
 
-	public Slot() {
+	public Schedule() {
 	}
 
 	/**

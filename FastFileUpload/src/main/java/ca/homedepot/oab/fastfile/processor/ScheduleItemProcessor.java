@@ -6,10 +6,10 @@ import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import ca.homedepot.oab.fastfile.model.Slot;
-import ca.homedepot.oab.fastfile.model.SlotDTO;
+import ca.homedepot.oab.fastfile.model.Schedule;
+import ca.homedepot.oab.fastfile.model.AssociateSlotDTO;
 import ca.homedepot.oab.fastfile.util.ScheduleStringBuilder;
-import ca.homedepot.oab.fastfile.util.SlotMap;
+import ca.homedepot.oab.fastfile.util.AssociateSlotDTOMap;
 
 /**
  * @author AXA8NZJ
@@ -17,20 +17,20 @@ import ca.homedepot.oab.fastfile.util.SlotMap;
  */
 
 @Component
-public class SlotProcessor implements ItemProcessor<Slot, SlotDTO> {
+public class ScheduleItemProcessor implements ItemProcessor<Schedule, Schedule> {
 
 	@Autowired
 	ScheduleStringBuilder scheduleStringBuilder;
 
 	@Override
-	public SlotDTO process(final Slot slot) throws ParseException {
+	public Schedule process(final Schedule slot) throws ParseException {
 
 		String uniqueRecordIdentifier = slot.getActivityFlag() + slot.getLdap() + slot.getShiftDate();
 		String scheduleString = scheduleStringBuilder.buildSchedule(slot.getStartInterval(), slot.getEndInterval(),
 				slot.getCoverageCheck(), uniqueRecordIdentifier, slot);
 		if (scheduleString != null) {
-			SlotDTO slotDTO = scheduleStringBuilder.buildSlotDTOForMap(uniqueRecordIdentifier, slot, scheduleString);
-			SlotMap.getSlotSchedules().put(uniqueRecordIdentifier, slotDTO);
+			AssociateSlotDTO slotDTO = scheduleStringBuilder.buildSlotDTOForMap(uniqueRecordIdentifier, slot, scheduleString);
+			AssociateSlotDTOMap.getSlotSchedules().put(uniqueRecordIdentifier, slotDTO);
 		}
 		return null;
 	}

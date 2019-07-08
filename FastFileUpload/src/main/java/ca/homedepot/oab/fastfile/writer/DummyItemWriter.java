@@ -5,13 +5,10 @@ import java.util.List;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.stereotype.Component;
 
-import ca.homedepot.oab.fastfile.model.SlotDTO;
-
 @Component
-public class SlotWriter implements ItemWriter<SlotDTO> {
-
+public class DummyItemWriter  implements ItemWriter<Object> {
+	
 	@Override
-	public void write(List items) throws Exception {
+	public void write(List<? extends Object> item) throws Exception {
 	}
-
 }
