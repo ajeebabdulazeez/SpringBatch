@@ -23,14 +23,14 @@ public class ScheduleItemProcessor implements ItemProcessor<Schedule, Schedule> 
 	ScheduleStringBuilder scheduleStringBuilder;
 
 	@Override
-	public Schedule process(final Schedule slot) throws ParseException {
+	public Schedule process(final Schedule schedule) throws ParseException {
 
-		String uniqueRecordIdentifier = slot.getActivityFlag() + slot.getLdap() + slot.getShiftDate();
-		String scheduleString = scheduleStringBuilder.buildSchedule(slot.getStartInterval(), slot.getEndInterval(),
-				slot.getCoverageCheck(), uniqueRecordIdentifier, slot);
+		String uniqueRecordIdentifier = schedule.getActivityFlag() + schedule.getLdap() + schedule.getShiftDate();
+		String scheduleString = scheduleStringBuilder.buildSchedule(schedule.getStartInterval(), schedule.getEndInterval(),
+				schedule.getCoverageCheck(), uniqueRecordIdentifier, schedule);
 		if (scheduleString != null) {
-			AssociateSlotDTO slotDTO = scheduleStringBuilder.buildSlotDTOForMap(uniqueRecordIdentifier, slot, scheduleString);
-			AssociateSlotDTOMap.getSlotSchedules().put(uniqueRecordIdentifier, slotDTO);
+			AssociateSlotDTO associateSlotDTO = scheduleStringBuilder.buildSlotDTOForMap(uniqueRecordIdentifier, schedule, scheduleString);
+			AssociateSlotDTOMap.getSlotSchedules().put(uniqueRecordIdentifier, associateSlotDTO);
 		}
 		return null;
 	}

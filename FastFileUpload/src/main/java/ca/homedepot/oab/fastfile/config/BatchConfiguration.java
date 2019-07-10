@@ -19,7 +19,8 @@ import ca.homedepot.oab.fastfile.model.Schedule;
 import ca.homedepot.oab.fastfile.processor.ScheduleItemProcessor;
 import ca.homedepot.oab.fastfile.reader.AssociateSlotItemReader;
 import ca.homedepot.oab.fastfile.reader.ScheduleItemReader;
-import ca.homedepot.oab.fastfile.tasklet.PreProcessingCheckTasklet;
+import ca.homedepot.oab.fastfile.tasklet.PostProcessingTasklet;
+import ca.homedepot.oab.fastfile.tasklet.PreProcessingTasklet;
 import ca.homedepot.oab.fastfile.writer.AssociateSlotItemWriter;
 import ca.homedepot.oab.fastfile.writer.DummyItemWriter;
 
@@ -34,7 +35,7 @@ public class BatchConfiguration {
 	public StepBuilderFactory stepBuilderFactory;
 
 	@Autowired
-	public PreProcessingCheckTasklet checkFileExist;
+	public PreProcessingTasklet checkFileExist;
 
 	@Autowired
 	public ScheduleItemReader scheduleItemReader;
@@ -54,6 +55,9 @@ public class BatchConfiguration {
 	@Autowired
 	public AssociateSlotItemWriter slotDTOWriter;
 
+	@Autowired
+	public PostProcessingTasklet archiveFile;
+
 	@Bean
 	public JobExecutionDecider postFileExistCheck() {
 
@@ -72,12 +76,18 @@ public class BatchConfiguration {
 		return jobBuilderFactory.get("fastFileImportJob").incrementer(new RunIdIncrementer()).start(fileCheckStep())
 				.on("*").to(postFileExistCheck()).from(postFileExistCheck()).on("FAILED").end("NOOP")
 				.from(postFileExistCheck()).on("COMPLETED").to(buildAssociateSlotRecords())
-				.from(buildAssociateSlotRecords()).on("*").to(performDbOperation()).end().build();
+				.from(buildAssociateSlotRecords()).on("*").to(performDbOperation()).from(performDbOperation()).on("*")
+				.to(fileArchive()).end().build();
 	}
 
 	@Bean
 	public Step fileCheckStep() {
 		return stepBuilderFactory.get("fileCheckStep").tasklet(checkFileExist).build();
+	}
+
+	@Bean
+	public Step fileArchive() {
+		return stepBuilderFactory.get("fileArchive").tasklet(archiveFile).build();
 	}
 
 	/**
@@ -91,7 +101,7 @@ public class BatchConfiguration {
 	 */
 	@Bean
 	public Step buildAssociateSlotRecords() throws Exception {
-		return stepBuilderFactory.get("buildRecordsForDbOperation").<Schedule, Schedule>chunk(1)
+		return stepBuilderFactory.get("buildAssociateSlotRecords").<Schedule, Schedule>chunk(1)
 				.reader(scheduleItemReader).processor(scheduleItemProcessor).writer(dummyWriter)
 				.listener(scheduleListener).build();
 	}
@@ -103,8 +113,8 @@ public class BatchConfiguration {
 	 */
 	@Bean
 	public Step performDbOperation() {
-		return stepBuilderFactory.get("test").<AssociateSlotDTO, AssociateSlotDTO>chunk(1).reader(slotDTOReader)
-				.writer(slotDTOWriter).build();
+		return stepBuilderFactory.get("performDbOperation").<AssociateSlotDTO, AssociateSlotDTO>chunk(1)
+				.reader(slotDTOReader).writer(slotDTOWriter).build();
 	}
 
 }

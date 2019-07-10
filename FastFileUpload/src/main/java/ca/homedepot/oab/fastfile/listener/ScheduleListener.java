@@ -1,7 +1,6 @@
 package ca.homedepot.oab.fastfile.listener;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -25,7 +24,6 @@ public class ScheduleListener implements StepExecutionListener {
 
 	@Override
 	public void beforeStep(StepExecution stepExecution) {
-		System.out.println("START TIME " + Calendar.getInstance().getTime());
 	}
 
 	@Override

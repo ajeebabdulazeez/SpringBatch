@@ -11,10 +11,10 @@ import ca.homedepot.oab.fastfile.model.AssociateSlotDTO;
 public class AssociateSlotItemReader implements ItemReader<AssociateSlotDTO> {
 
 	private int index;
-	private List<AssociateSlotDTO> slotDTOList;
+	private List<AssociateSlotDTO> associateSlotDTOList;
 
-	public void setSlotDTO(List<AssociateSlotDTO> slotDTOList) {
-		this.slotDTOList = slotDTOList;
+	public void setSlotDTO(List<AssociateSlotDTO> associateSlotDTOList) {
+		this.associateSlotDTOList = associateSlotDTOList;
 	}
 
 	public AssociateSlotItemReader() {
@@ -22,11 +22,11 @@ public class AssociateSlotItemReader implements ItemReader<AssociateSlotDTO> {
 
 	@Override
 	public AssociateSlotDTO read() throws Exception {
-		AssociateSlotDTO nextSlotDTO = null;
-		if (index < slotDTOList.size()) {
-			nextSlotDTO = slotDTOList.get(index);
+		AssociateSlotDTO nextAssociateSlotDTO = null;
+		if (index < associateSlotDTOList.size()) {
+			nextAssociateSlotDTO = associateSlotDTOList.get(index);
 			index++;
 		}
-		return nextSlotDTO;
+		return nextAssociateSlotDTO;
 	}
 }

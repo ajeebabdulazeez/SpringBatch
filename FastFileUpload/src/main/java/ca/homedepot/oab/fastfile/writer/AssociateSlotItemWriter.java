@@ -32,7 +32,7 @@ public class AssociateSlotItemWriter implements ItemWriter<AssociateSlotDTO> {
 				&& !(slotFromDb.getSlotAvailability().replace("B", "A").equals(scheduleFromMap)
 						|| slotFromDb.getSlotAvailability().replace("B", "U").equals(scheduleFromMap))) {
 
-			associateSlotService.updateAssociateSLot(slotFromDb, scheduleFromMap);
+			associateSlotService.updateAssociateSlot(slotFromDb, scheduleFromMap);
 		}
 
 	}

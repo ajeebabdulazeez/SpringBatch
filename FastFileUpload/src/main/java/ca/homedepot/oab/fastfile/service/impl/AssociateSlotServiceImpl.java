@@ -24,7 +24,7 @@ public class AssociateSlotServiceImpl implements AssociateSlotService {
 	}
 
 	@Override
-	public void updateAssociateSLot(AssociateSlotDTO slotFromDb, String newSchedule) {
+	public void updateAssociateSlot(AssociateSlotDTO slotFromDb, String newSchedule) {
 		slotFromDb
 				.setSlotAvailability(modifyScheduleInMapWithAppointment(slotFromDb.getSlotAvailability(), newSchedule));
 		slotFromDb.setSlotUpdatedts(new Timestamp(System.currentTimeMillis()));

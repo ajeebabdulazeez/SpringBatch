@@ -13,3 +13,10 @@ logging:
    file: C:/Users/axa8nzj/eclipse-workspace/application-debug.log
    level: 
       ca.homedepot.oab.fastfile: DEBUG
+      
+gcp:
+  storage: 
+    bucket: schedulingcommon
+    inputfolder: OAB
+    archiveFolder: OAB/Archive
+    fileName: File11.csv

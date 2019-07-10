@@ -6,9 +6,9 @@ import ca.homedepot.oab.fastfile.model.AssociateSlotDTO;
 
 public interface AssociateSlotService {
 
-	public void createAssociateSlot(AssociateSlotDTO slotDTO);
+	public void createAssociateSlot(AssociateSlotDTO associateSlotDTO);
 
-	public void updateAssociateSLot(AssociateSlotDTO slotDTO, String newSchedule);
+	public void updateAssociateSlot(AssociateSlotDTO associateSlotDTO, String newSchedule);
 
 	public AssociateSlotDTO getAssociateSlot(String typeId, String ldap, Date shiftDate);
 
