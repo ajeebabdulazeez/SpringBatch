@@ -15,7 +15,7 @@ import ca.homedepot.oab.fastfile.reader.AssociateSlotItemReader;
 import ca.homedepot.oab.fastfile.util.AssociateSlotDTOMap;
 
 @Component
-public class ScheduleListener implements StepExecutionListener {
+public class BuildAssociateSlotStepListener implements StepExecutionListener {
 
 	@Autowired
 	AssociateSlotItemReader slotDTOReader;
@@ -30,8 +30,8 @@ public class ScheduleListener implements StepExecutionListener {
 	public ExitStatus afterStep(StepExecution stepExecution) {
 		Map<String, AssociateSlotDTO> scheduleMap = AssociateSlotDTOMap.getSlotSchedules();
 
-		scheduleMap.forEach((K, V) -> {
-			slotDTOList.add(V);
+		scheduleMap.forEach((Key, slotDTO) -> {
+			slotDTOList.add(slotDTO);
 		});
 		slotDTOReader.setSlotDTO(slotDTOList);
 

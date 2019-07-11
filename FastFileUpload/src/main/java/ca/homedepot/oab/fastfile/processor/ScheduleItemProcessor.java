@@ -22,17 +22,24 @@ public class ScheduleItemProcessor implements ItemProcessor<Schedule, Schedule> 
 	@Autowired
 	ScheduleStringBuilder scheduleStringBuilder;
 
+	private Schedule scheduleRecordInFastFile;
+
 	@Override
 	public Schedule process(final Schedule schedule) throws ParseException {
-
+		this.scheduleRecordInFastFile = schedule;
 		String uniqueRecordIdentifier = schedule.getActivityFlag() + schedule.getLdap() + schedule.getShiftDate();
-		String scheduleString = scheduleStringBuilder.buildSchedule(schedule.getStartInterval(), schedule.getEndInterval(),
-				schedule.getCoverageCheck(), uniqueRecordIdentifier, schedule);
+		String scheduleString = scheduleStringBuilder.buildSchedule(schedule.getStartInterval(),
+				schedule.getEndInterval(), schedule.getCoverageCheck(), uniqueRecordIdentifier, schedule);
 		if (scheduleString != null) {
-			AssociateSlotDTO associateSlotDTO = scheduleStringBuilder.buildSlotDTOForMap(uniqueRecordIdentifier, schedule, scheduleString);
+			AssociateSlotDTO associateSlotDTO = scheduleStringBuilder.buildSlotDTOForMap(uniqueRecordIdentifier,
+					schedule, scheduleString);
 			AssociateSlotDTOMap.getSlotSchedules().put(uniqueRecordIdentifier, associateSlotDTO);
 		}
 		return null;
+	}
+
+	public Schedule getScheduleRecordInFastFile() {
+		return scheduleRecordInFastFile;
 	}
 
 }

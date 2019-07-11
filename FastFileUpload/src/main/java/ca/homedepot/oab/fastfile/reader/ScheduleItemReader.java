@@ -31,7 +31,7 @@ public class ScheduleItemReader extends FlatFileItemReader<Schedule> {
 		this.setLinesToSkip(1);
 
 		//REMOVE THIS LINE
-		this.setResource(new ClassPathResource("FASTFile1.csv"));
+		this.setResource(new ClassPathResource("FASTFileException.csv"));
 		
 		this.setLineMapper(new DefaultLineMapper<Schedule>() {
 			{

@@ -13,16 +13,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import ca.homedepot.oab.fastfile.listener.ScheduleListener;
+import ca.homedepot.oab.fastfile.listener.BuildAssociateSlotStepListener;
+import ca.homedepot.oab.fastfile.listener.FastFileImportJobListener;
 import ca.homedepot.oab.fastfile.model.AssociateSlotDTO;
 import ca.homedepot.oab.fastfile.model.Schedule;
 import ca.homedepot.oab.fastfile.processor.ScheduleItemProcessor;
 import ca.homedepot.oab.fastfile.reader.AssociateSlotItemReader;
 import ca.homedepot.oab.fastfile.reader.ScheduleItemReader;
+import ca.homedepot.oab.fastfile.skip.ScheduleSkipper;
 import ca.homedepot.oab.fastfile.tasklet.PostProcessingTasklet;
 import ca.homedepot.oab.fastfile.tasklet.PreProcessingTasklet;
 import ca.homedepot.oab.fastfile.writer.AssociateSlotItemWriter;
-import ca.homedepot.oab.fastfile.writer.DummyItemWriter;
+import ca.homedepot.oab.fastfile.writer.ScheduleDummyItemWriter;
 
 @Configuration
 @EnableBatchProcessing
@@ -35,6 +37,9 @@ public class BatchConfiguration {
 	public StepBuilderFactory stepBuilderFactory;
 
 	@Autowired
+	public FastFileImportJobListener fastFileImportJobListener;
+
+	@Autowired
 	public PreProcessingTasklet checkFileExist;
 
 	@Autowired
@@ -44,10 +49,10 @@ public class BatchConfiguration {
 	public ScheduleItemProcessor scheduleItemProcessor;
 
 	@Autowired
-	public ScheduleListener scheduleListener;
+	public BuildAssociateSlotStepListener scheduleListener;
 
 	@Autowired
-	public DummyItemWriter dummyWriter;
+	public ScheduleDummyItemWriter dummyWriter;
 
 	@Autowired
 	public AssociateSlotItemReader slotDTOReader;
@@ -57,6 +62,9 @@ public class BatchConfiguration {
 
 	@Autowired
 	public PostProcessingTasklet archiveFile;
+
+	@Autowired
+	public ScheduleSkipper scheduleSkipper;
 
 	@Bean
 	public JobExecutionDecider postFileExistCheck() {
@@ -73,11 +81,11 @@ public class BatchConfiguration {
 
 	@Bean
 	public Job fastFileImportJob() throws Exception {
-		return jobBuilderFactory.get("fastFileImportJob").incrementer(new RunIdIncrementer()).start(fileCheckStep())
-				.on("*").to(postFileExistCheck()).from(postFileExistCheck()).on("FAILED").end("NOOP")
-				.from(postFileExistCheck()).on("COMPLETED").to(buildAssociateSlotRecords())
-				.from(buildAssociateSlotRecords()).on("*").to(performDbOperation()).from(performDbOperation()).on("*")
-				.to(fileArchive()).end().build();
+		return jobBuilderFactory.get("fastFileImportJob").incrementer(new RunIdIncrementer())
+				.listener(fastFileImportJobListener).start(fileCheckStep()).on("*").to(postFileExistCheck())
+				.from(postFileExistCheck()).on("FAILED").end("NOOP").from(postFileExistCheck()).on("COMPLETED")
+				.to(buildAssociateSlotRecords()).from(buildAssociateSlotRecords()).on("*").to(performDbOperation())
+				.from(performDbOperation()).on("*").to(fileArchive()).end().build();
 	}
 
 	@Bean
@@ -101,9 +109,9 @@ public class BatchConfiguration {
 	 */
 	@Bean
 	public Step buildAssociateSlotRecords() throws Exception {
-		return stepBuilderFactory.get("buildAssociateSlotRecords").<Schedule, Schedule>chunk(1)
-				.reader(scheduleItemReader).processor(scheduleItemProcessor).writer(dummyWriter)
-				.listener(scheduleListener).build();
+		return stepBuilderFactory.get("buildAssociateSlotRecords").<Schedule, Schedule>chunk(10)
+				.reader(scheduleItemReader).processor(scheduleItemProcessor).writer(dummyWriter).faultTolerant()
+				.skipPolicy(scheduleSkipper).listener(scheduleListener).build();
 	}
 
 	/**
